@@ -1,10 +1,12 @@
-import requests
-from pprint import pprint
+from utils import users_work
 
-word_search = "python"
-VACANCIES_URL = "https://api.hh.ru/vacancies"
-head = {"User-Agent": "naumesku@gmail.com"}
-parameters = {"text": word_search, "area": 2, "date_from": "2023-09-13"}
-response = requests.get(url=VACANCIES_URL, params=parameters, headers=head)
+def main():
+    text_search = str(input("Введите слово или фразу для поиска: "))
+        # Ищем вакансии.
+        # Сохраняем в файл.
+        # Выводим без сотрировки
+    users_work (text_search)
+    # Запускаем программу для работы с пользователем
 
-pprint(response.json())
+if __name__ == "__main__":
+    main()

@@ -1,32 +1,35 @@
+from abc import ABC, abstractmethod
 import requests
-from pprint import pprint
+from data.config import HH_VACANCIES_URL, HH_HEADERS, SJ_VACANCIES_URL, SJ_HEADERS, COUNT_SJ, COUNT_HH
 
-class API:
+class API(ABC):
     """Родительский класс для работы с АПИ"""
 
-    def __init__(self, url: str, headers: str, params: dict) -> None:
-        self.url = url
-        self.headers = headers
-        self.params = params
-        self.response = requests.get(url=self.url, headers=self.headers, params=self.params)
-
-
-    def __str__(self) -> str:
-        """Выводит в консоль информацию для пользователя."""
-        return str(f"{self.url})")
-
-    def __repr__(self) -> str:
-        """Выводит в консоль информацию для разработчика."""
+    @abstractmethod
+    def get_response(self):
         pass
 
-
-
 class HH(API):
-    def __init__(self, url: str, headers: str, params: dict) -> None:
-        super().__init__(url, headers, params)
+    '''Класс для поиска вакансиях на сайте HH.ru по названию'''
+    def __init__(self, user_search: str) -> None:
+        self.__url = HH_VACANCIES_URL
+        self.__headers = HH_HEADERS
+        self.params = {"text": user_search, "per_page": COUNT_HH,'page': 0, "archived": False}
 
+    def get_response(self):
+    # Принимает текст для поиска и выдает список найденных вакансий в формате Json
+        self.response = requests.get(url=self.__url, headers=self.__headers, params=self.params) #headers=self.__headers,
+        return self.response.json()
 
+class SJ(API):
+    '''Класс для поиска вакансиях на сайте SJ.ru'''
 
-class superjob(API):
-    def __init__(self, url: str, headers: str, params: dict) -> None:
-        super().__init__(url, headers, params)
+    def __init__(self, user_search: str) -> None:
+        self.__url = SJ_VACANCIES_URL
+        self.__headers = SJ_HEADERS
+        self.params = {"count":COUNT_SJ, "keyword":user_search, "archive":False}
+
+    def get_response(self):
+    # Принимает текст для поиска и выдает список найденных вакансий в формате Json
+        self.response = requests.get(url=self.__url, headers=self.__headers, params=self.params)
+        return self.response.json()
