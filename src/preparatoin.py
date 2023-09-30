@@ -65,8 +65,15 @@ class MixinPreparatoin:
                     continue
                 else:
                     date_publishedt_user = f"{year}-{month}-{day}"
-                salary_from_user = int(input("Введите min заработок вакансии (целое число): "))
-                salary_to_user = int(input("Введите max заработок вакансии (целое число): "))
+                salary_from_user = int(input("Введите min заработок вакансии (положительное целое число) или 0 если не хотите указывать: "))
+                salary_to_user = int(input("Введите max заработок вакансии (положительное целое число) или 0 если не хотите указывать: "))
+                if salary_from_user < 0 or salary_to_user < 0:
+                    print("Не верный ввод. Попробуйте снова")
+                    continue
+                if salary_from_user == 0:
+                    salary_from_user = "не указана"
+                if salary_to_user == 0:
+                    salary_to_user = "не указана"
                 responsibility_user = input("Введите описание вакансии: ")
                 town_user = input("Введите Город: ")
                 url_user = input("Введите ссылку на вакансию: ")
