@@ -48,7 +48,6 @@ class MixinPreparatoin:
                 data_change = salary * config.currency_change[currenty.upper()]
         else:
             data_change = "не указана"
-
         return data_change
 
     def preparation_data_user(self):
