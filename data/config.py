@@ -1,10 +1,17 @@
 from pathlib import Path
+from configparser import ConfigParser
 
 PATH_VACANCIES = Path(__file__).parent.joinpath("vacancies.json")
 # Путь до json-файла с вакансиями
 
+PATH_COMPANY = Path(__file__).parent.joinpath("company.json")
+# Путь до json-файла с вакансиями
+
 PATH_LOG = Path(__file__).parent.joinpath("log.txt")
-# Путь до txt-файла с  ошибочными вакансиями
+# Путь до txt-файла с ошибочными вакансиями
+
+PATH_FILE_DB = Path(__file__).parent.joinpath("database.ini")
+
 
 HH_VACANCIES_URL = "https://api.hh.ru/vacancies"
 # Базовый URL для сайта HH.ru
@@ -13,19 +20,26 @@ HH_HEADERS = {"User-Agent": "naumesku@gmail.com"}
 COUNT_HH = 100
 #Количество вакансий для поиска на сайте HH.ru
 
-BASES_ID_SJ = 2996
-# Базовый ID для сайта SJ.ru
-SECRET_KEY_SJ = "v3.r.111847284.4352b84a837eb770efe1e81582e6a49a021cac26.f32f2ba64ad2dd647ad8173eef63ed25154ee812"
-# Секретный ключ для сайта SJ.ru
-SJ_VACANCIES_URL = "https://api.superjob.ru/2.0/vacancies/"
-# Базовый URL для сайта HH.ru
-SJ_HEADERS = {"X-Api-App-Id": SECRET_KEY_SJ}
-# Заголовок для сайта HH.ru - обязательное требование
-COUNT_SJ = 100
-#Количество ваканссий для поиска на сайте SJ
+def config_params(filename, section="postgresql"):
+    # функция для формирования параметров, необходимых для создания базы данных
+    parser = ConfigParser()
+    # read config file
+    parser.read(filename)
+    db = {}
+    if parser.has_section(section):
+        params = parser.items(section)
+        for param in params:
+            db[param[0]] = param[1]
+    else:
+        raise Exception(
+            'Section {0} is not found in the {1} file.'.format(section, filename))
+    return db
 
-#Котировки для конвертации валют
+PARAMS_BD = config_params(PATH_FILE_DB)
+#параметры, для создания базы данных
+
 currency_change = {
+#Котировки для конвертации валют
         "AUD": 0.01620564,
         "AZN": 0.0177006,
         "GBP": 0.0084734,
