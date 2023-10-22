@@ -1,5 +1,6 @@
 import json
 from data import config
+import API_classes
 
 class WorkJson():
     '''Класс для работы с json-файлами'''
@@ -20,6 +21,9 @@ class WorkJson():
 # sup = [{'Яндекс': 1740, 'МегаФон': 3127, 'Билайн': 4934, 'Вконтакте': 15478,'Тинькофф':78638,
 #         'Сбер Банк': 3529,'Альфа-Банк': 80,'Почта России': 4352,'Ozon': 2180,'Wildberries ': 87021}]
 #
-# ex = WorkJson()
-# ex.save_json(sup, config.PATH_COMPANY)
+
+data_hh = API_classes.HH_API('1740')
+vacancy_hh = data_hh.preparation_api_json()
+ex = WorkJson()
+ex.save_json(vacancy_hh, config.PATH_VACANCIES)
 

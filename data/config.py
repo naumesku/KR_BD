@@ -11,7 +11,7 @@ PATH_LOG = Path(__file__).parent.joinpath("log.txt")
 # Путь до txt-файла с ошибочными вакансиями
 
 PATH_FILE_DB = Path(__file__).parent.joinpath("database.ini")
-
+# Путь до ini-файла с параметрами для создания таблиц
 
 HH_VACANCIES_URL = "https://api.hh.ru/vacancies"
 # Базовый URL для сайта HH.ru
