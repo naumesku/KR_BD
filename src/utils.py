@@ -9,9 +9,10 @@ from data.config import PATH_COMPANY, PATH_VACANCIES
 def all_vacancies_json(path_companies,path_vacansies ):
     '''Сохраняет вакансии всех компаний из файла "path_companies" в файл json "path_vacansies"'''
 
-    # Сначала надо очистить файл
-
     ex = WorkJson()
+    ex.clean_json(PATH_VACANCIES)
+    # Удаляем данные из json - файла
+
     with open(path_companies, 'r', encoding='UTF-8') as f:
         data_companies = json.load(f)
         vacancy_hh_all = []
@@ -25,8 +26,8 @@ def create_database(path_companies, name_table_companies, path_vacansies, name_t
     '''Создает базу данных с таблицами и заполняет их'''
     db = CREATE_DB()
     db.create_database
-    db.filling_table(path_companies, name_table_companies)
-    db.filling_table(path_vacansies, name_table_vacansies)
+    # db.filling_table(path_companies, name_table_companies)
+    # db.filling_table(path_vacansies, name_table_vacansies)
 
 def users_work(data_search):
     '''Функция для работы с пользователем'''
