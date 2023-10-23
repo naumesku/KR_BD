@@ -1,8 +1,10 @@
 import json
-from data.config import PATH_COMPANY
+from work_json import WorkJson
+from utils import all_vacancies_json
+from data.config import PATH_COMPANY, PATH_VACANCIES
 
-with open(PATH_COMPANY, 'r', encoding='UTF-8') as f:
-    data = json.load(f)
-    for name, id in data.items():
-        print(name, id)
+all_vacancies_json(PATH_COMPANY, PATH_VACANCIES)
 
+work = WorkJson()
+for line in work.get_vacancies(PATH_VACANCIES):
+    print(line)

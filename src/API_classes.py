@@ -45,8 +45,3 @@ class HH_API():
         else:
             data_change = "не указана"
         return data_change
-
-
-data_hh = HH_API('1740')
-vacancy_hh = data_hh.preparation_api_json()
-print(vacancy_hh)

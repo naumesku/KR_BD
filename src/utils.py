@@ -1,6 +1,32 @@
 from work_json import WorkJson
 from work_vacancies import SortVacancies, PerformanceVacancies
+import json
+from work_database import CREATE_DB
+from data import config
+import API_classes
+from data.config import PATH_COMPANY, PATH_VACANCIES
 
+def all_vacancies_json(path_companies,path_vacansies ):
+    '''Сохраняет вакансии всех компаний из файла "path_companies" в файл json "path_vacansies"'''
+
+    # Сначала надо очистить файл
+
+    ex = WorkJson()
+    with open(path_companies, 'r', encoding='UTF-8') as f:
+        data_companies = json.load(f)
+        vacancy_hh_all = []
+        for i in data_companies:
+            data_hh = API_classes.HH_API(i['company_id'])
+            vacancy_company = data_hh.preparation_api_json()
+            vacancy_hh_all.extend(vacancy_company)
+        ex.save_json(vacancy_hh_all, path_vacansies)
+
+def create_database(path_companies, name_table_companies, path_vacansies, name_table_vacansies):
+    '''Создает базу данных с таблицами и заполняет их'''
+    db = CREATE_DB()
+    db.create_database
+    db.filling_table(path_companies, name_table_companies)
+    db.filling_table(path_vacansies, name_table_vacansies)
 
 def users_work(data_search):
     '''Функция для работы с пользователем'''
@@ -87,3 +113,4 @@ def print_resalt(vacancy_list):
     '''Выводит результат запроса пользовотеля на экран'''
     for line_vacancy in vacancy_list:
         print(PerformanceVacancies(line_vacancy).__str__())
+
