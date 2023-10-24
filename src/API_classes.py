@@ -43,5 +43,5 @@ class HH_API():
             else:
                 data_change = salary * currency_change[currenty.upper()]
         else:
-            data_change = "не указана"
+            data_change = None
         return data_change

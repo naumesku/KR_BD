@@ -1,5 +1,6 @@
 from pathlib import Path
 from configparser import ConfigParser
+from configparser import ConfigParser
 
 PATH_VACANCIES = Path(__file__).parent.joinpath("vacancies.json")
 # Путь до json-файла с вакансиями

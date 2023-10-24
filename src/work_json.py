@@ -1,6 +1,4 @@
 import json
-from data import config
-import API_classes
 
 class WorkJson():
     '''Класс для работы с json-файлами'''

@@ -1,10 +1,10 @@
+import json
+import API_classes
 from work_json import WorkJson
 from work_vacancies import SortVacancies, PerformanceVacancies
-import json
 from work_database import CREATE_DB
-from data import config
-import API_classes
 from data.config import PATH_COMPANY, PATH_VACANCIES
+from configparser import ConfigParser
 
 def all_vacancies_json(path_companies,path_vacansies ):
     '''Сохраняет вакансии всех компаний из файла "path_companies" в файл json "path_vacansies"'''
@@ -25,9 +25,14 @@ def all_vacancies_json(path_companies,path_vacansies ):
 def create_database(path_companies, name_table_companies, path_vacansies, name_table_vacansies):
     '''Создает базу данных с таблицами и заполняет их'''
     db = CREATE_DB()
-    db.create_database
-    # db.filling_table(path_companies, name_table_companies)
-    # db.filling_table(path_vacansies, name_table_vacansies)
+    db.create_database()
+    db.filling_table(path_companies, name_table_companies)
+    db.filling_table(path_vacansies, name_table_vacansies)
+
+
+
+
+
 
 def users_work(data_search):
     '''Функция для работы с пользователем'''
