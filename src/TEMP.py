@@ -3,8 +3,11 @@ from work_json import WorkJson
 from utils import all_vacancies_json
 from data.config import PATH_COMPANY, PATH_VACANCIES
 
-all_vacancies_json(PATH_COMPANY, PATH_VACANCIES)
+from db_manager import DBManager
 
-work = WorkJson()
-for line in work.get_vacancies(PATH_VACANCIES):
-    print(line)
+db = DBManager()
+# db.get_vacancies_with_higher_salary()
+# db.get_all_vacancies()
+# db.get_companies_and_vacancies_count()
+db.get_vacancies_with_keyword("сборщик")
+

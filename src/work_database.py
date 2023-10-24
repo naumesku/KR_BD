@@ -1,6 +1,6 @@
 import psycopg2
 import json
-from data.config import PARAMS_BD, PATH_VACANCIES, PATH_COMPANY
+from data.config import PARAMS_BD
 
 class CREATE_DB():
     '''Класс для создания и наполнения базы данных и таблиц ы ней'''
@@ -28,11 +28,11 @@ class CREATE_DB():
             CREATE TABLE companies(
                     company_id INT PRIMARY KEY, company_title VARCHAR(35) NOT NULL);
             CREATE TABLE vacancies (
-                    vacacy_id INT PRIMARY KEY,
+                    vacancy_id INT PRIMARY KEY,
                     company_id INT REFERENCES companies(company_id),
-                    vacacy_title VARCHAR(155) NOT NULL,
+                    vacancy_title VARCHAR(155) NOT NULL,
                     salary_from INT,
-                    vacacy_url TEXT);
+                    vacancy_url TEXT);
                     ''')
             conn.commit()
         conn.close()

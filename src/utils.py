@@ -3,8 +3,8 @@ import API_classes
 from work_json import WorkJson
 from work_vacancies import SortVacancies, PerformanceVacancies
 from work_database import CREATE_DB
-from data.config import PATH_COMPANY, PATH_VACANCIES
-from configparser import ConfigParser
+from data.config import PATH_VACANCIES
+
 
 def all_vacancies_json(path_companies,path_vacansies ):
     '''Сохраняет вакансии всех компаний из файла "path_companies" в файл json "path_vacansies"'''

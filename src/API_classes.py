@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from pprint import pprint
 import requests, json
 from data.config import HH_VACANCIES_URL, HH_HEADERS, COUNT_HH, PATH_LOG, currency_change
 
