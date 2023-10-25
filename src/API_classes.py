@@ -18,7 +18,7 @@ class HH_API():
         self.response = requests.get(url=self.__url, headers=self.__headers, params={"employer_id": self.employer_id, "per_page": COUNT_HH, 'page': self.page, "archived": False})
         return self.response.json()
 
-    def preparation_api_json(self):
+    def preparation_vacancy_one_company(self):
         '''Получает данные в формате Json и возвращает общий список словарей с только необходимыми параметрами вакансий'''
         all_vacancy = []
         for page in range(self.__page):

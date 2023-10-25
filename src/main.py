@@ -1,11 +1,7 @@
-from utils import all_vacancies_json, create_database, users_work
-from data.config import PATH_VACANCIES, PATH_COMPANY
+from utils import create_database, users_work
 
 def main():
-    all_vacancies_json(PATH_COMPANY, PATH_VACANCIES)
-    #Наполняем актуальными вакансиями файл vacancies.json
-
-    create_database(PATH_COMPANY, 'companies', PATH_VACANCIES, 'vacancies')
+    create_database()
     #Создаем базу данных и таблицы и наполняем актуальными вакансиями
 
     print('Вакансии загружены в базу данных (валюта "РУБ")')

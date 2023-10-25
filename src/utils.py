@@ -1,40 +1,33 @@
 import json
-import API_classes
-from work_json import WorkJson
 from creating_database import CREATE_DB
-from data.config import PATH_VACANCIES
+from data.config import PATH_COMPANY
 from db_manager import DBManager
+import API_classes
 
 
-def all_vacancies_json(path_companies, path_vacansies):
-    '''Сохраняет вакансии всех компаний из файла "path_companies" в файл json "path_vacansies"'''
-
-    ex = WorkJson()
-    ex.clean_json(PATH_VACANCIES)
-    # Удаляем данные из json - файла
-
+def all_vacancies(path_companies):
+    '''Получает список вакансии всех компаний записанных в файле "path_companies"'''
     with open(path_companies, 'r', encoding='UTF-8') as f:
-        data_companies = json.load(f)
+        all_companies = json.load(f)
         vacancy_hh_all = []
-        for i in data_companies:
-            data_hh = API_classes.HH_API(i['company_id'])
-            vacancy_company = data_hh.preparation_api_json()
+        for employer in all_companies:
+            data_hh = API_classes.HH_API(employer["company_id"])
+            vacancy_company = data_hh.preparation_vacancy_one_company()
             vacancy_hh_all.extend(vacancy_company)
-        ex.save_json(vacancy_hh_all, path_vacansies)
+    return vacancy_hh_all
 
-
-def create_database(path_companies, name_table_companies, path_vacansies, name_table_vacansies):
+def create_database():
     '''Создает базу данных с таблицами и заполняет их'''
     db = CREATE_DB()
     db.create_database()
-    db.filling_table(path_companies, name_table_companies)
-    db.filling_table(path_vacansies, name_table_vacansies)
-
+    with open(PATH_COMPANY, 'r', encoding = "utf-8") as comp:
+        data_for_company = json.load(comp)
+    db.filling_table(data_for_company, 'companies')
+    data_for_vacancy = all_vacancies(PATH_COMPANY)
+    db.filling_table(data_for_vacancy, 'vacancies')
 
 def users_work():
     '''Функция для работы с пользователем'''
-    exempl_db = DBManager()
-    # Создаем экземпляр класса для работы с пользователем
 
     while True:
         exempl_db = DBManager()

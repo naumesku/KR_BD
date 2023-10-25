@@ -1,5 +1,4 @@
 import psycopg2
-import json
 from data.config import PARAMS_BD
 
 class CREATE_DB():
@@ -39,17 +38,14 @@ class CREATE_DB():
             conn.commit()
         conn.close()
 
-    def filling_table(self, path,  table_name):
+    def filling_table(self, data_for_table, table_name):
         '''Наполняет таблицу данными из json файла'''
         conn = psycopg2.connect(dbname=self.database_name, **self.params)
-
         with conn.cursor() as cur:
-            with open(path, 'r', encoding='UTF-8') as f:
-                data = json.load(f)
-                for line in data:
-                    values = ("%s," * len(line))[:-1]
-                    try:
-                        cur.execute(f"INSERT INTO {table_name} VALUES ({values})", tuple(line.values()))
-                    except psycopg2.errors.UniqueViolation:
-                        pass
-                    conn.commit()
+            for line in data_for_table:
+                values = ("%s," * len(line))[:-1]
+                try:
+                    cur.execute(f"INSERT INTO {table_name} VALUES ({values})", tuple(line.values()))
+                except psycopg2.errors.UniqueViolation:
+                    pass
+                conn.commit()
