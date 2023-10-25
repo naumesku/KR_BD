@@ -2,16 +2,16 @@ import psycopg2
 from data.config import PARAMS_BD
 
 class DBManager():
-    '''Класс для поиска вакансий на сайте HH.ru по id_работодателя '''
+    '''Класс для поиска вакансий в базе данных по запросам '''
     def __init__(self) -> None:
         self.params = PARAMS_BD
         self.database_name = 'vacansies_hh'
         self.conn = psycopg2.connect(dbname=self.database_name, **self.params)
 
-    def cursor(self, reqest):
+    def cursor(self, request):
         # Получает запрос, подключается в БД, выдает результат
         with  self.conn.cursor() as cur:
-            cur.execute(f'{reqest}')
+            cur.execute(f'{request}')
             rows = cur.fetchall()
             for row in rows:
                 print(row)
@@ -25,7 +25,7 @@ class DBManager():
 
     def get_all_vacancies(self):
         # Получает список всех вакансий
-        self.cursor('''SELECT company_title, vacacy_title, salary_from ,vacacy_url FROM companies 
+        self.cursor('''SELECT company_title, vacancy_title, salary_from ,vacancy_url FROM companies 
                     JOIN vacancies USING (company_id)''')
 
     def get_avg_salary(self):
@@ -35,12 +35,21 @@ class DBManager():
 
     def get_vacancies_with_higher_salary(self):
         # Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям
-        self.cursor('''SELECT company_title, vacacy_title, salary_from ,vacacy_url FROM companies 
+        self.cursor('''SELECT company_title, vacancy_title, salary_from ,vacancy_url FROM companies 
                 JOIN vacancies USING (company_id)
                 WHERE salary_from > (SELECT AVG(salary_from) FROM vacancies)''')
 
     def get_vacancies_with_keyword(self, user_request):
-        # Получает список всех вакансий, в названии которых содержатся переданные в метод слова
-        self.cursor(f'''SELECT company_title, vacacy_title, salary_from ,vacacy_url FROM companies 
-                    JOIN vacancies USING (company_id)
-                    WHERE vacacy_title LIKE '%{user_request}%' ''')
+        # Получает слово для поиска, возвращает найденные сущности
+        with self.conn.cursor() as cur:
+            cur.execute(f'''SELECT company_title, vacancy_title, salary_from ,vacancy_url FROM vacancies
+                            JOIN companies USING (company_id)
+                            WHERE vacancy_title LIKE '%{user_request}%' ''')
+            rows = cur.fetchall()
+            if len(rows) == 0:
+                print("Вакансий с таким запросом нет.")
+            else:
+                print(f'Вывожу список вакансий, в названиях которых есть: {user_request}:')
+                for row in rows:
+                    print(row)
+        self.conn.close()
