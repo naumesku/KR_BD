@@ -18,10 +18,11 @@ class CREATE_DB():
 
         with conn.cursor() as cur:
             conn.autocommit = True
-            try:
-                cur.execute(f"DROP DATABASE {self.database_name}")
-            except psycopg2.errors.InvalidCatalogName:
-                pass
+            # try:
+            #     cur.execute(f"DROP DATABASE {self.database_name}")
+            # except psycopg2.errors.InvalidCatalogName:
+            #     pass
+            cur.execute(f"DROP DATABASE IF EXISTS {self.database_name}")
             cur.execute(f"CREATE DATABASE {self.database_name}")
             conn.commit()
         conn.close()
