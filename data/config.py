@@ -19,7 +19,10 @@ HH_VACANCIES_URL = "https://api.hh.ru/vacancies"
 HH_HEADERS = {"User-Agent": "naumesku@gmail.com"}
 # Заголовок для сайта HH.ru - обязательное требование
 COUNT_HH = 100
-#Количество вакансий для поиска на сайте HH.ru
+#Количество вакансий для поиска на 1 странице сайта HH.ru
+PAGES = 3
+#Количество cтраниц сайта HH.ru для парсинга
+
 
 def config_params(filename, section="postgresql"):
     # функция для формирования параметров, необходимых для создания базы данных
@@ -80,6 +83,7 @@ currency_change = {
         "TMT": 0.03644248,
         "UZS": 126.923848,
         "SO'M": 0.007873,
+        "so'm": 0.007873,
         "UAH": 0.384575,
         "CZK": 0.2393226,
         "SEK": 0.116402375,

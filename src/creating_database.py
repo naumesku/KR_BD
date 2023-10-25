@@ -3,11 +3,13 @@ import json
 from data.config import PARAMS_BD
 
 class CREATE_DB():
-    '''Класс для создания и наполнения базы данных и таблиц ы ней'''
-
+    '''Класс для создания и наполнения базы данных и таблиц в ней'''
     def __init__(self) -> None:
         self.params = PARAMS_BD
         self.database_name = 'vacansies_hh'
+
+    def __str__(self) -> str:
+        return ("Класс для создания и наполнения базы данных и таблиц в ней")
 
     def create_database(self):
         """Создание базы данных и таблиц для сохранения данных о каналах и видео."""
@@ -16,7 +18,10 @@ class CREATE_DB():
 
         with conn.cursor() as cur:
             conn.autocommit = True
-            cur.execute(f"DROP DATABASE {self.database_name}")
+            try:
+                cur.execute(f"DROP DATABASE {self.database_name}")
+            except psycopg2.errors.InvalidCatalogName:
+                pass
             cur.execute(f"CREATE DATABASE {self.database_name}")
             conn.commit()
         conn.close()
@@ -46,5 +51,8 @@ class CREATE_DB():
                 data = json.load(f)
                 for line in data:
                     values = ("%s," * len(line))[:-1]
-                    cur.execute(f"INSERT INTO {table_name} VALUES ({values})", tuple(line.values()))
+                    try:
+                        cur.execute(f"INSERT INTO {table_name} VALUES ({values})", tuple(line.values()))
+                    except psycopg2.errors.UniqueViolation:
+                        pass
                     conn.commit()
